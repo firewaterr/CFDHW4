@@ -20,10 +20,6 @@ Ly = 12;
 % Number of grid points in x and y directions
 Nx = 15; 
 Ny = 12; 
-x = linspace(0, Lx, Nx); % Grid points in x direction
-y = linspace(0, Ly, Ny); % Grid points in y direction
-dx = Lx / Nx; 
-dy = Ly / Ny;
 % Initial condition
 Tinit = zeros(Nx,Ny);
 Tinit(:,1) = 20;    % T(0,y)    = 20

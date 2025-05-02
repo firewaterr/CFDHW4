@@ -18,35 +18,27 @@ clc;
 Lx = 15; 
 Ly = 12; 
 % Number of grid points in x and y directions
-Nx = 500; 
-Ny = 500; 
+Nx = 100; 
+Ny = 100; 
+x = linspace(0, Lx, Nx); % Grid points in x direction
+y = linspace(0, Ly, Ny); % Grid points in y direction
 % Grid spacing in x and y direction
 dx = Lx / Nx; 
 dy = Ly / Ny;
 T = zeros(Nx,Ny);
 % Initial condition
-T(:,1) = 20; % T(x,0) = 20
-T(:,end) = 20; % T(x,12) = 100
-T(1,:) = 20; % T(0,y) = 20
-T(end,:) = 100; % T(15,y) = 20
-x = linspace(0, Lx, Nx); % Grid points in x direction
-y = linspace(0, Ly, Ny); % Grid points in y direction
-iterationNum = 50000;
-for iteration = 1:iterationNum
-for i =  2:Nx-1
-    for j = 2:Ny-1
-        T(i,j) = (T(i+1,j)+T(i-1,j)+T(i,j+1)+T(i,j-1)) / 4;
-    end
-end
-for i =  Nx-1:-1:2
-    for j = Ny-1:-1:2
-        T(i,j) = (T(i+1,j)+T(i-1,j)+T(i,j+1)+T(i,j-1)) / 4;
-    end
-end
-end
+T(:,1) = 20; % T(0,y) = 20
+T(:,end) = 20; % T(15,y) = 20
+T(1,:) = 20; % T(x,0) = 20
+T(end,:) = 100; % T(x,12) = 100
+%% Iteration part
+relaxationFactor = 0.5; % Relaxation factor
+tolerance = 1e-6; % Tolerance for convergence
+[T, iteration, NormError] = iterateTemperatureField(T, relaxationFactor, Nx, Ny, tolerance); % Call the function to iterate the temperature field
 %% Plot the results
 figure;
-surf(x,y,T,'Edgecolor','none'); % Surface plot
+[C, h] = contourf(x, y, T, 10, "EdgeColor", 'none'); % Contour plot
+title('Contour plot of temperature distribution'); % Title
 xlabel('x'); % x-axis label
 ylabel('y'); % y-axis label
 zlabel('Temperature'); % z-axis label
